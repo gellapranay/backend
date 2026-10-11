@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Copy POM and download dependencies
 COPY pom.xml .
+COPY settings.xml /root/.m2/settings.xml
 RUN mvn dependency:go-offline -B
 
 # Copy source code and package JAR
