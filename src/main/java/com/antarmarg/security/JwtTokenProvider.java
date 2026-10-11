@@ -17,7 +17,7 @@ public class JwtTokenProvider {
     private final long jwtExpirationMs;
 
     public JwtTokenProvider(
-            @Value("${antarmarg.jwt.secret:AntarmargLastMeterIntelligenceSecretKey2026SecureTokenStringShouldBeLongEnoughForHS256Algorithm}") String jwtSecret,
+            @Value("${antarmarg.jwt.secret}") String jwtSecret,
             @Value("${antarmarg.jwt.expiration-ms:86400000}") long jwtExpirationMs) {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         this.jwtExpirationMs = jwtExpirationMs;

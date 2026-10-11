@@ -2,6 +2,7 @@ package com.antarmarg.util;
 
 import com.antarmarg.entity.*;
 import com.antarmarg.repository.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class DataInitializer implements CommandLineRunner {
     private final DeliveryRepository deliveryRepository;
     private final ObstacleRepository obstacleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String superAdminPassword;
 
     public DataInitializer(
             UserRepository userRepository,
@@ -28,7 +30,8 @@ public class DataInitializer implements CommandLineRunner {
             LocationEdgeRepository edgeRepository,
             DeliveryRepository deliveryRepository,
             ObstacleRepository obstacleRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            @Value("${SUPER_ADMIN_PASSWORD}") String superAdminPassword) {
         this.userRepository = userRepository;
         this.facilityRepository = facilityRepository;
         this.nodeRepository = nodeRepository;
@@ -36,6 +39,7 @@ public class DataInitializer implements CommandLineRunner {
         this.deliveryRepository = deliveryRepository;
         this.obstacleRepository = obstacleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.superAdminPassword = superAdminPassword;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class DataInitializer implements CommandLineRunner {
             superAdmin.setName("System Administrator");
             superAdmin.setEmail("superadmin@antarmarg.com");
             superAdmin.setPhone("+91 9876543210");
-            superAdmin.setPassword(passwordEncoder.encode("Admin@Antarmarg2026"));
+            superAdmin.setPassword(passwordEncoder.encode(superAdminPassword));
             superAdmin.setRole(Role.SUPER_ADMIN);
             superAdmin.setIsApproved(true);
             superAdmin.setIsActive(true);

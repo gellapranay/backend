@@ -8,10 +8,12 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://dpg-db4em6vlk1mc73fps0ug-a:5432/tt_wbyu
+        value: jdbc:postgresql://dpg-db4em6vlk1mc73fps0ug-a.singapore-postgres.render.com:5432/tt_wbyu?sslmode=require
       - key: SPRING_DATASOURCE_USERNAME
         value: tt_wbyu_user
       - key: SPRING_DATASOURCE_PASSWORD
-        value: 82mYVNCwvXBDTYrsTVk505bGgqaNSPi4
+        sync: false
       - key: JWT_SECRET
-        value: AntarmargLastMeterIntelligenceSecretKey2026SecureTokenStringShouldBeLongEnoughForHS256Algorithm
+        sync: false
+      - key: SUPER_ADMIN_PASSWORD
+        sync: false
