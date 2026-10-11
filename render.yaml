@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: antarmarg-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-db4em6vlk1mc73fps0ug-a:5432/tt_wbyu
+      - key: SPRING_DATASOURCE_USERNAME
+        value: tt_wbyu_user
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: 82mYVNCwvXBDTYrsTVk505bGgqaNSPi4
+      - key: JWT_SECRET
+        value: AntarmargLastMeterIntelligenceSecretKey2026SecureTokenStringShouldBeLongEnoughForHS256Algorithm

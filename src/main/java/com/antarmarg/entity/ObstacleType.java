@@ -1,0 +1,14 @@
+package com.antarmarg.entity;
+
+public enum ObstacleType {
+    BLOCKED_ROAD,
+    CLOSED_GATE,
+    LIFT_UNAVAILABLE,
+    STAIRCASE_BLOCKED,
+    CONSTRUCTION,
+    SECURITY_RESTRICTION,
+    PARKING_FULL,
+    ACCESS_DENIED,
+    INACCESSIBLE_PATH,
+    OTHER
+}
