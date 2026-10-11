@@ -33,8 +33,7 @@ docker run -p 8080:8080 antarmarg-backend
    - `SPRING_DATASOURCE_URL`: the database's External Database URL, with `?sslmode=require`
    - `SPRING_DATASOURCE_USERNAME`: `tt_wbyu_user`
    - `SPRING_DATASOURCE_PASSWORD`: set from the PostgreSQL dashboard; do not commit it
-   - `JWT_SECRET`: generate a new secret of at least 32 characters and set it in the Render dashboard
-   - `SUPER_ADMIN_PASSWORD`: set a strong initial password for the seeded super-admin account
+   - `JWT_SECRET` and `SUPER_ADMIN_PASSWORD`: generated automatically by the Render Blueprint
 5. Click **Create Web Service**.
 
 Rotate the database password and JWT secret if previously deployed from a revision that contained committed credentials.
