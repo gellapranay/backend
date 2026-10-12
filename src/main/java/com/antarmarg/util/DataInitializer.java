@@ -2,17 +2,22 @@ package com.antarmarg.util;
 
 import com.antarmarg.entity.*;
 import com.antarmarg.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
+
+    private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
     private final UserRepository userRepository;
     private final FacilityRepository facilityRepository;
@@ -22,6 +27,7 @@ public class DataInitializer implements CommandLineRunner {
     private final ObstacleRepository obstacleRepository;
     private final PasswordEncoder passwordEncoder;
     private final String superAdminPassword;
+    private final TransactionTemplate transactionTemplate;
 
     public DataInitializer(
             UserRepository userRepository,
@@ -31,7 +37,8 @@ public class DataInitializer implements CommandLineRunner {
             DeliveryRepository deliveryRepository,
             ObstacleRepository obstacleRepository,
             PasswordEncoder passwordEncoder,
-            @Value("${SUPER_ADMIN_PASSWORD}") String superAdminPassword) {
+            PlatformTransactionManager transactionManager,
+            @Value("${SUPER_ADMIN_PASSWORD:SuperAdmin@123}") String superAdminPassword) {
         this.userRepository = userRepository;
         this.facilityRepository = facilityRepository;
         this.nodeRepository = nodeRepository;
@@ -40,11 +47,19 @@ public class DataInitializer implements CommandLineRunner {
         this.obstacleRepository = obstacleRepository;
         this.passwordEncoder = passwordEncoder;
         this.superAdminPassword = superAdminPassword;
+        this.transactionTemplate = new TransactionTemplate(transactionManager);
     }
 
     @Override
-    @Transactional
     public void run(String... args) {
+        try {
+            transactionTemplate.executeWithoutResult(status -> seed());
+        } catch (Exception ex) {
+            log.error("Data seeding failed; application will continue without seed data", ex);
+        }
+    }
+
+    private void seed() {
         if (userRepository.count() == 0) {
             // 1. Seed Users for All 4 Roles
             User superAdmin = new User();
